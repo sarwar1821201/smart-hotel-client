@@ -1,9 +1,10 @@
 import React from 'react';
+import Header from '../pages/Shared/Header/Header';
 
 const Main = () => {
     return (
         <div>
-            <h2 className='text-3xl text-green-500 ' >Hello</h2>
+           <Header></Header>
         </div>
     );
 };
