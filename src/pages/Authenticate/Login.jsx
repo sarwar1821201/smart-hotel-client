@@ -2,16 +2,25 @@ import React, { useContext } from 'react';
 import { FcGoogle } from 'react-icons/fc'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
+import { TbFidgetSpinner } from 'react-icons/tb';
 
 
 const Login = () => {
 
-    const {  loading,signIn,googleSignIn,resetPassword} = useContext(AuthContext)
+    const {  loading,signIn,googleSignIn,resetPassword, setLoading } = useContext(AuthContext)
       
     const navigate= useNavigate();
     const location= useLocation();
 
     const from= location.state?.from?.pathname || '/' ;
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        const email= event.target.email.value;
+        const password= event.target.password.value;
+        console.log(email,password)
+    }
+
 
     const handleGoogleSignIn = () => {
         console.log('google diye login koro')
@@ -24,7 +33,9 @@ const Login = () => {
 
         } )
         .catch( (error) => {
+            setLoading(false)
          console.log('error' ,  error.message)
+         alert(error.message)
         } );
      }
 
@@ -38,7 +49,7 @@ const Login = () => {
               Sign in to access your account
             </p>
           </div>
-          <form
+          <form onSubmit={handleLogin}
             noValidate=''
             action=''
             className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -80,7 +91,10 @@ const Login = () => {
                 type='submit'
                 className='bg-rose-500 w-full rounded-md py-3 text-white'
               >
-                Continue
+                {
+                    loading ? (<TbFidgetSpinner className='m-auto animate-spin' size={24} ></TbFidgetSpinner> ) : 'Continue' 
+                }
+                
               </button>
             </div>
           </form>
