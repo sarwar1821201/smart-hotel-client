@@ -7,12 +7,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDLxjZaYNmhvQH-QJPdFOdet4LAWdDwxSE",
-  authDomain: "smart-home-62e12.firebaseapp.com",
-  projectId: "smart-home-62e12",
-  storageBucket: "smart-home-62e12.appspot.com",
-  messagingSenderId: "272924575429",
-  appId: "1:272924575429:web:20bb77863ceb7e874e12ac"
+  apiKey:import.meta.env.VITE_apiKey,
+  authDomain:import.meta.env.VITE_authDomain,
+  projectId:import.meta.env.VITE_projectId,
+  storageBucket:import.meta.env.VITE_storageBucket,
+  messagingSenderId:import.meta.env.VITE_messagingSenderId,
+  appId:import.meta.env.VITE_appId
 };
 
 // Initialize Firebase
