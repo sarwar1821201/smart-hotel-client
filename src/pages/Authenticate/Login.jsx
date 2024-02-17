@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FcGoogle } from 'react-icons/fc'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../provider/AuthProvider';
 import { TbFidgetSpinner } from 'react-icons/tb';
+import { toast } from 'react-toastify';
+
 
 
 const Login = () => {
@@ -11,6 +13,7 @@ const Login = () => {
       
     const navigate= useNavigate();
     const location= useLocation();
+    const emailRef= useRef()
 
     const from= location.state?.from?.pathname || '/' ;
 
@@ -19,7 +22,27 @@ const Login = () => {
         const email= event.target.email.value;
         const password= event.target.password.value;
         console.log(email,password)
-    }
+
+        signIn(email,password)
+        .then( (result) =>{
+          
+          const loggedUser= result.user;
+          console.log(loggedUser)
+          alert('congratulation!! user successfully login')
+         // setError('')
+          event.target.reset ();
+         navigate(from ,{replace: true})
+
+        })
+
+        .catch( (error)=>{
+           console.log(error.message)
+          // setError(' sorry!! user name or password do not match')
+           //setSuccess('')
+        })
+     }
+
+    
 
 
     const handleGoogleSignIn = () => {
@@ -37,6 +60,23 @@ const Login = () => {
          console.log('error' ,  error.message)
          alert(error.message)
         } );
+     }
+
+     const handleResetPassword = () => {
+         console.log( 'password bhule gechen!!!!! ' )
+          const email= emailRef.current.value;
+//return console.log(email)
+          resetPassword(email)
+          .then(() => {
+            toast.success('Please check your email for reset link')
+            setLoading(false)
+          })
+          .catch(err => {
+            setLoading(false)
+            console.log(err.message)
+            toast.error(err.message)
+          })
+    
      }
 
  
@@ -60,6 +100,7 @@ const Login = () => {
                   Email address
                 </label>
                 <input
+                  ref={emailRef}
                   type='email'
                   name='email'
                   id='email'
@@ -92,14 +133,14 @@ const Login = () => {
                 className='bg-rose-500 w-full rounded-md py-3 text-white'
               >
                 {
-                    loading ? (<TbFidgetSpinner className='m-auto animate-spin' size={24} ></TbFidgetSpinner> ) : 'Continue' 
+                    loading ? (<TbFidgetSpinner className='m-auto animate-spin' size={24} ></TbFidgetSpinner> ) : 'Continue'
                 }
                 
               </button>
             </div>
           </form>
           <div className='space-y-1'>
-            <button className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
+            <button onClick={handleResetPassword}  className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
               Forgot password?
             </button>
           </div>
