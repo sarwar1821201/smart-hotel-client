@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Container from '../Shared/Container';
 import Card from './Card';
 import { useParams, useSearchParams } from 'react-router-dom';
+import Heading from '../Shared/Heading';
 
 const Rooms = () => {
 
@@ -30,18 +31,31 @@ const Rooms = () => {
 
     return (
         <Container>
-            <div className=' mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 ' >
+           { rooms && rooms.length>0 ? (
+             <div className=' mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 ' >
 
-                {
-                    rooms.map ( (room,index)=> <Card 
-                      key={index}
-                      room={room}
+             {
+                 rooms.map ( (room,index)=> <Card 
+                   key={index}
+                   room={room}
+                 >
+
+                 </Card>  )
+             }
+
+         </div>
+           )  : (
+                <div  className='pt-12'>
+                    <Heading  
+                      title='No Rooms Avaliable in the Category!!!'
+                      subtitle='Please Select The Other Categories'
+                      center={true}
                     >
 
-                    </Card>  )
-                }
+                    </Heading>
 
-            </div>
+                </div>
+           )  }
         </Container>
     );
 };
